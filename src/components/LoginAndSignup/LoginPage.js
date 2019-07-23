@@ -1,13 +1,6 @@
-//import {connect} from 'react-redux'
 
 import React from "react";
-//import { AppAuth } from 'expo-app-auth';
 import * as GoogleSignIn from "expo-google-sign-in";
-
-// This value should contain your REVERSE_CLIENT_ID
-//const { URLSchemes } = AppAuth;
-
-
 import {
   StyleSheet,
   View,
@@ -15,24 +8,14 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Keyboard,
-  KeyboardAvoidingView
+  Keyboard
 } from "react-native";
 
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
-    this.initializeGoogleSignin();
     // Initialize google signin
-  
-
-    this.state = {
-      user: {
-        username: "TestUser",
-        password: "TestUser"
-      }
-    };
-
+    this.initializeGoogleSignin();
     this._onSignInClick = this._onSignInClick.bind(this);
   }
 
@@ -98,12 +81,6 @@ class LoginPage extends React.Component {
                   this.setState(state => ((state.user.password = text), state)) //placeholder="Password"
               }
             />
-            {/* <TouchableOpacity
-              onPress={this._onSignInClick}
-              style={styles.loginButton}
-            >
-              <Text style={styles.loginButtonTextStyle}>LogIn</Text>
-            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={this._onSignInClick}
               style={styles.loginButton}
@@ -111,7 +88,6 @@ class LoginPage extends React.Component {
               <Text style={styles.loginButtonTextStyle}>LogIn With Google</Text>
             </TouchableOpacity>
           </View>
-          {this.state.animating && <Loader animating={this.state.animating} />}
         </View>
       </TouchableWithoutFeedback>
     );

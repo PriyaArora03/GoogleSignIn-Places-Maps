@@ -45,7 +45,7 @@ class PlaceDetail extends React.Component {
     return (
       <View style={styles.mainContainer}>
         <NavBar
-          showBackBtn="false"
+          showBackBtn="true"
           onBackPress={this.backButtonClick}
           title={"Place Details"}
         />

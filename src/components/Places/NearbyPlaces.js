@@ -6,22 +6,17 @@ import {
     Text,
     FlatList,
     TouchableOpacity,
-    Image
 } from "react-native";
 
 import { NavBar } from "../../Reusable/NavBar";
-
-// let currentLocationalat = 0
-// let currentLocationlong = 0
 
 class DataListItem extends React.Component {
      
     render() {
         return (
             <TouchableOpacity onPress={this.props.onPress} style={styles.listCell}>
-                <View style={styles.textsView}>
-                    <Text style={styles.item}>{this.props.item.name}</Text>
-                </View>
+              <Text style={styles.item}>{this.props.item.name}</Text>
+              <View style={{ height: 0.3, backgroundColor: "grey", width: "100%" }}></View>
             </TouchableOpacity>
         )
     }
@@ -62,10 +57,7 @@ class NearbyPlaces extends React.Component {
     console.log(" get location method called")
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
-      // this.setState({
-      //   locationResult: 'Permission to access location was denied',
-      //   location
-      // });
+      console.log("status not granted")
     }
     let location = await Location.getCurrentPositionAsync({});
     console.log("Current location:", location) 
@@ -159,10 +151,9 @@ class NearbyPlaces extends React.Component {
             flexDirection: "column",
         },
         listCell: {
-            flexDirection: "row",
+            flexDirection: "column",
             width: "90%",
             height: 60,
-            backgroundColor: "lightgrey",
             marginBottom: 15,
             marginHorizontal: "5%",
         },
@@ -170,18 +161,6 @@ class NearbyPlaces extends React.Component {
             padding: 10,
             fontSize: 18,
             height: 44,
-        },
-        backButtonStyle: {
-            backgroundColor: "transparent",
-            width: 30,
-            height: 30,
-            marginLeft: 20,
-            marginTop: 20
-        },
-        backButtonImageStyle: {
-            width: 30,
-            height: 30,
-            resizeMode: "contain"
-        },
+        }
     });
 export default NearbyPlaces;
