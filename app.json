@@ -24,6 +24,11 @@
           "reservedClientId": "com.googleusercontent.apps.221889692030-r6ttjuhj9qfolfcd1hkut7vmacv7sg63"
         }
       }
+    },
+    "android": {
+ 
+      "package": "com.app.testapp",
+      "googleServicesFile": "./google-services.json"
+    }
   }
-}
 }

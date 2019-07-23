@@ -20,9 +20,16 @@ class PlaceDetail extends React.Component {
   _mapViewButtonClick() {
     const { navigation } = this.props;
     const place = navigation.getParam("placesInfo");
+    const currentLocation = navigation.getParam("currentLoc");
     this.props.navigation.navigate("MapComponent", {
-      placesInfo: place
+      placesInfo: place,
+      currentLoc: currentLocation,
+      placeLoc: {
+        latitude: place.geometry.location.lat,
+        longitude: place.geometry.location.lng
+      }
     });
+    console.log("MapViewClicked" + place.geometry.location.lat, place.geometry.location.lng )
   }
   backButtonClick() {
     console.log("BackBtnClick");

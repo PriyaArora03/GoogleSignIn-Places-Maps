@@ -1,5 +1,5 @@
 import React from "react";
-
+import {  Location, Permissions } from 'expo';
 import {
     StyleSheet,
     View,
@@ -8,7 +8,11 @@ import {
     TouchableOpacity,
     Image
 } from "react-native";
+
 import { NavBar } from "../../Reusable/NavBar";
+
+// let currentLocationalat = 0
+// let currentLocationlong = 0
 
 class DataListItem extends React.Component {
      
@@ -23,19 +27,55 @@ class DataListItem extends React.Component {
     }
 }
 
+let latitude = 0;
+let longitude = 0;
+
 class NearbyPlaces extends React.Component {
   constructor(props) {
     super(props);
+  
     this.state = {
-      placesInfo: []
+      placesInfo: [],
     };
 
     this.backButtonClick = this.backButtonClick.bind(this);
   }
   componentDidMount() {
-    this.getPlacesAsync()
+    this._getLocationAsync();
+  }
+   
+  _handleRowClick = item => {
+    const place = item;
+    const currentLocationCoords = {
+      latitude: latitude,
+      longitude: longitude
+    }
+    console.log(currentLocationCoords);
+
+    this.props.navigation.navigate("PlaceDetail", {
+      placesInfo: place,
+      currentLoc: currentLocationCoords
+    });
+  };
+
+  _getLocationAsync = async () => {
+    console.log(" get location method called")
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      // this.setState({
+      //   locationResult: 'Permission to access location was denied',
+      //   location
+      // });
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    console.log("Current location:", location) 
+
+    latitude = location.coords.latitude;
+    longitude = location.coords.longitude;
+  
+
+    this.getPlacesAsync(latitude,longitude)
       .then(result => {
-        console.log("Places:", result);
         this.setState({
           placesInfo: result.results
         });
@@ -43,22 +83,20 @@ class NearbyPlaces extends React.Component {
       .catch(err => {
         console.log("Error:" - err);
       });
-  }
-  _handleRowClick = item => {
-    const place = item;
 
-    this.props.navigation.navigate("PlaceDetail", {
-      placesInfo: place
-    });
-  };
+  }
+
+
   backButtonClick() {
     console.log("BackBtnClick");
     this.props.navigation.goBack(null);
   }
   
-  getPlacesAsync() {
+  
+  getPlacesAsync(lat, long) {
+
     const url =
-      "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyDspIHtcMLwDeGYO6BzRs1UKGoxljl_LHA";
+      "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + long + "" + "&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyDspIHtcMLwDeGYO6BzRs1UKGoxljl_LHA";
     return fetch(url, {
       headers: {
         Accept: "application/json",
@@ -68,7 +106,9 @@ class NearbyPlaces extends React.Component {
     })
       .then(response => response.json())
       .then(responseJson => {
-        return responseJson;
+        console.log(responseJson);
+        return responseJson
+        
       })
       .catch(error => {
         console.error(error);

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "221889692030",
+    "firebase_url": "https://isteertest-d1041.firebaseio.com",
+    "project_id": "isteertest-d1041",
+    "storage_bucket": "isteertest-d1041.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221889692030:android:ce02f3b38a8c7051",
+        "android_client_info": {
+          "package_name": "com.app.testapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "221889692030-29baeojai0fia7sdmu97pstflajf3vuj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvDmUGCBveW7eTESGDJkCcpCeH1WWXoJ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "221889692030-29baeojai0fia7sdmu97pstflajf3vuj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "221889692030-r6ttjuhj9qfolfcd1hkut7vmacv7sg63.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.testapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,69 +1,79 @@
 import React from "react";
-import { MapView, Location, Permissions} from 'expo';
+import { Constants, MapView, Location, Permissions} from 'expo';
 
-import {StyleSheet} from "react-native";
+import {StyleSheet, View , Text} from "react-native";
 
+let markers = [];
 
 class MapComponent extends React.Component {
 
+    
     constructor() {
+        
         super();
         this.state = {
             markers: [{
                 id:1,
-                title: 'my current location',
-                coordinate : {
-                    latitude: 3.148561, 
-                    longitude: 101.652778
-                }
+                title: 'hello',
+                coords: {
+                    latitude: 12.9716,
+                    longitude: 77.5946
+                },
             },
             {
                 id:2,
                 title: 'hello',
-                coordinate: {
-                    latitude: 3.149771,
-                    longitude: 101.655449
+                coords: {
+                    latitude: 11.9716,
+                    longitude: 76.5946
                 },
             }],
-                region: { latitude: 3.148561, longitude: 101.652778, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
+                mapRegion: { latitude: 3.148561, longitude: 101.652778, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
                 locationResult: null,
+               
                 location: { coords: { latitude: 37.78825, longitude: -122.4324 } },
             };
     }
+
     componentDidMount() {
-        this._getLocationAsync();
-    
+        const { navigation } = this.props;
+        const currentLocation = navigation.getParam("currentLoc");
+        const placeLoc = navigation.getParam("placeLoc");
+        console.log("PlaceLocation"+ placeLoc)
+        const currentMarker = {
+            id: 1,
+            title: 'My Location',
+            coords: currentLocation
+        }
+        const placeMarker = {
+            id: 2,
+            title: 'Place',
+            coords: placeLoc
+        }
+       
+        markers.push(currentMarker);
+        markers.push(placeMarker);
+        this.setState({ markers: markers })
+        console.log("Marker:", currentMarker, placeMarker);
+       
     }
 
-    _handleMapRegionChange = region => {
-        this.setState({ region });
-    };
-
-    _getLocationAsync = async () => {
-        let { status } = await Permissions.askAsync(Permissions.LOCATION);
-        if (status !== 'granted') {
-            this.setState({
-                locationResult: 'Permission to access location was denied',
-                location
-            });
-        }
-
-        let location = await Location.getCurrentPositionAsync({});
-        this.setState({ locationResult: JSON.stringify(location), location, });
+    _handleMapRegionChange = mapRegion => {
+        this.setState({ mapRegion });
     };
 
     render() {
-        return (
-           
-
+        const { navigation } = this.props;
+        const currentLocation = navigation.getParam("currentLoc");
+        return ( 
             <MapView style={styles.map}
-                region={this.state.region}
+                region={{ latitude: currentLocation.latitude, longitude: currentLocation.longitude, latitudeDelta: 0.1122, longitudeDelta: 0.1121 }}
                 onRegionChange={this._handleMapRegionChange}
             >
                 {this.state.markers.map(marker => (
                     <MapView.Marker
                         key={marker.id}
-                        coordinate={marker.coordinate}
+                        coordinate={marker.coords}
                         title={marker.title}
         
                     />
