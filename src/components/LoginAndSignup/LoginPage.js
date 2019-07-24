@@ -11,6 +11,7 @@ import {
   Keyboard
 } from "react-native";
 
+
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
@@ -28,6 +29,8 @@ class LoginPage extends React.Component {
       } catch ({ message }) {
         alert("GoogleSignIn.initAsync(): " + message);
       }
+
+      
   }
   signInAsync = async() => {
       try {
@@ -35,14 +38,17 @@ class LoginPage extends React.Component {
         const { type, user } = await GoogleSignIn.signInAsync();
         if (type === "success") {
           console.log('User:', user);
+          this.props.navigation.navigate("NearbyPlaces");
         }
+      
       } catch ({ message }) {
         alert("login: Error:" + message);
+        this.props.navigation.navigate("NearbyPlaces");
       }
   }
 
   _onSignInClick() {
-    //this.props.navigation.navigate("NearbyPlaces");
+    
     this.signInAsync();
   }
 

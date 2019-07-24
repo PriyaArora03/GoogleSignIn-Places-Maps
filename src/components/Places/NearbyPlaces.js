@@ -8,6 +8,7 @@ import {
     Text,
     FlatList,
     TouchableOpacity,
+    Alert
 } from "react-native";
 
 import { NavBar } from "../../Reusable/NavBar";
@@ -64,6 +65,9 @@ class NearbyPlaces extends React.Component {
       currentLoc: currentLocationCoords
     });
   };
+  exit = async () => {
+    
+  }
 
   _getLocationAsync = async () => {
     this.startActivityIndicator();
@@ -85,9 +89,19 @@ class NearbyPlaces extends React.Component {
         this.setState({
           placesInfo: result.results
         });
+       
       })
       .catch(err => {
         console.log("Error:" - err);
+        Alert.alert(
+          "Sorry",
+          "There are some issues in fetching nearby places"
+          [{
+            text: "OK",
+            onPress: () => console.log("OK Pressed")
+          }],
+          { cancelable: false }
+        );
       });
 
   }
@@ -102,7 +116,7 @@ class NearbyPlaces extends React.Component {
   getPlacesAsync(lat, long) {
     this.startActivityIndicator()
     const url =
-      "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + long + "" + "&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyDspIHtcMLwDeGYO6BzRs1UKGoxljl_LHA";
+      "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + long + "" + "&radius=9500&key=AIzaSyDspIHtcMLwDeGYO6BzRs1UKGoxljl_LHA";
     console.log(url);
     return fetch(url, {
       headers: {
@@ -119,7 +133,6 @@ class NearbyPlaces extends React.Component {
         
       })
       .catch(error => {
-       
         console.error(error);
         this.closeActivityIndicator();
       });
@@ -172,14 +185,14 @@ class NearbyPlaces extends React.Component {
         listCell: {
             flexDirection: "column",
             width: "90%",
-            height: 50,
+            height: 60,
             marginBottom: 25,
             marginHorizontal: "5%"
         },
         item: {
             padding: 2,
             fontSize: 18,
-            height: 50,
+            height: 60,
         }
     });
 export default NearbyPlaces;
