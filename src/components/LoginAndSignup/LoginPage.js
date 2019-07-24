@@ -24,7 +24,7 @@ class LoginPage extends React.Component {
       try {
         await GoogleSignIn.initAsync({
           clientId:
-            "221889692030-r6ttjuhj9qfolfcd1hkut7vmacv7sg63.apps.googleusercontent.com"
+            "235006286664-g8dgsi2jc1e1356fqeq3g91smvv6vqsi.apps.googleusercontent.com"
         });
       } catch ({ message }) {
         alert("GoogleSignIn.initAsync(): " + message);
