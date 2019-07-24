@@ -7,19 +7,20 @@ let markers = [];
 
 class MapComponent extends React.Component {
 
-    
     constructor() {
         
         super();
         this.state = {
             markers: [{ }],
             };
+        this.backButtonClick = this.backButtonClick.bind(this);
     }
 
     componentDidMount() {
         const { navigation } = this.props;
         const currentLocation = navigation.getParam("currentLoc");
         const placeLoc = navigation.getParam("placeLoc");
+        console.log(currentLocation, placeLoc)
         console.log("PlaceLocation"+ placeLoc)
         const currentMarker = {
             id: 1,
@@ -37,6 +38,10 @@ class MapComponent extends React.Component {
         this.setState({ markers: markers })
         console.log("Marker:", currentMarker, placeMarker);
        
+    }
+    backButtonClick() {
+        console.log("BackBtnClick");
+        this.props.navigation.goBack(null);
     }
 
     render() {

@@ -42,7 +42,7 @@ class LoginPage extends React.Component {
   }
 
   _onSignInClick() {
-    this.props.navigation.navigate("NearbyPlaces");
+    //this.props.navigation.navigate("NearbyPlaces");
     this.signInAsync();
   }
 
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: "5%"
   },
   loginButtonTextStyle: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: "normal",
     color: "black",
     textAlign: "center"

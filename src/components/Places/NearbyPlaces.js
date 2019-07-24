@@ -1,5 +1,7 @@
 import React from "react";
-import {  Location, Permissions } from 'expo';
+import * as Location from 'expo-location'
+import * as Permissions from 'expo-permissions'
+import Loader from "../../ActivityIndicator";
 import {
     StyleSheet,
     View,
@@ -13,6 +15,7 @@ import { NavBar } from "../../Reusable/NavBar";
 class DataListItem extends React.Component {
      
     render() {
+        console.log("Android render called")
         return (
             <TouchableOpacity onPress={this.props.onPress} style={styles.listCell}>
               <Text style={styles.item}>{this.props.item.name}</Text>
@@ -31,6 +34,8 @@ class NearbyPlaces extends React.Component {
   
     this.state = {
       placesInfo: [],
+      errorMessage: null,
+      animating: false
     };
 
     this.backButtonClick = this.backButtonClick.bind(this);
@@ -38,7 +43,14 @@ class NearbyPlaces extends React.Component {
   componentDidMount() {
     this._getLocationAsync();
   }
-   
+  startActivityIndicator() {
+    this.setState({ animating: true });
+  }
+
+  closeActivityIndicator() {
+    this.setState({ animating: false });
+  }
+
   _handleRowClick = item => {
     const place = item;
     const currentLocationCoords = {
@@ -54,10 +66,12 @@ class NearbyPlaces extends React.Component {
   };
 
   _getLocationAsync = async () => {
-    console.log(" get location method called")
+    this.startActivityIndicator();
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
-      console.log("status not granted")
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
     }
     let location = await Location.getCurrentPositionAsync({});
     console.log("Current location:", location) 
@@ -86,9 +100,10 @@ class NearbyPlaces extends React.Component {
   
   
   getPlacesAsync(lat, long) {
-
+    this.startActivityIndicator()
     const url =
       "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + long + "" + "&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyDspIHtcMLwDeGYO6BzRs1UKGoxljl_LHA";
+    console.log(url);
     return fetch(url, {
       headers: {
         Accept: "application/json",
@@ -98,12 +113,15 @@ class NearbyPlaces extends React.Component {
     })
       .then(response => response.json())
       .then(responseJson => {
+        this.closeActivityIndicator();
         console.log(responseJson);
         return responseJson
         
       })
       .catch(error => {
+       
         console.error(error);
+        this.closeActivityIndicator();
       });
   }
 
@@ -125,6 +143,7 @@ class NearbyPlaces extends React.Component {
             );
           }}
         />
+        {this.state.animating && <Loader animating={this.state.animating} />}
       </View>
     );
   }
@@ -153,14 +172,14 @@ class NearbyPlaces extends React.Component {
         listCell: {
             flexDirection: "column",
             width: "90%",
-            height: 60,
-            marginBottom: 15,
-            marginHorizontal: "5%",
+            height: 50,
+            marginBottom: 25,
+            marginHorizontal: "5%"
         },
         item: {
-            padding: 10,
+            padding: 2,
             fontSize: 18,
-            height: 44,
+            height: 50,
         }
     });
 export default NearbyPlaces;

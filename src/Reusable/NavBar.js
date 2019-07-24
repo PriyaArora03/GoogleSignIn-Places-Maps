@@ -16,7 +16,7 @@ export class NavBar extends React.Component {
               style={styles.backBtn}
               onPress={this.props.onBackPress}
             >
-              <Text style = {{fontSize:16}}> Back </Text> 
+              <Text> Back </Text> 
             </TouchableOpacity>
 
             {this.props.title && (
@@ -51,10 +51,10 @@ const styles = StyleSheet.create({
   },
 
   backBtn: {
-    width: 45,
+    width: 50,
     height: 30,
+    justifyContent: 'center',
     alignItems: "center",
-    padding: 3,
     marginTop: 5
   }
 });
